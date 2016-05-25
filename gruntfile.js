@@ -21,6 +21,14 @@ module.exports = function(grunt) {
         },
       },
     },
+    concurrent: {
+      serve: {
+        tasks: ['watch', 'connect:server:keepalive'],
+        options: {
+            logConcurrentOutput: true
+        }
+      },
+    },
     copy: {
       main: {
         files: [
@@ -114,6 +122,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-webpack');
+  grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
@@ -121,5 +130,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('release', ['copy:main', 'string-replace:main', 'webpack:main']);
   grunt.registerTask('default', ['clean:release', 'release']);
+  grunt.registerTask('serve', ['concurrent:serve']);
 
 };
